@@ -3,158 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YourTigranmods - Login</title>
+    <title>YourTigranmods — Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap');
-        
-        * {
-            font-family: 'Inter', sans-serif;
-        }
-        
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 'Poppins', sans-serif;
-        }
-        
+        * { font-family: 'Inter', sans-serif; }
+        h1, h2, h3, h4, h5, h6 { font-family: 'Poppins', sans-serif; }
         .glow {
             animation: glow 2s ease-in-out infinite alternate;
         }
-        
         @keyframes glow {
-            from {
-                box-shadow: 0 0 10px #00ff9c, 0 0 20px #00ff9c;
-            }
-            to {
-                box-shadow: 0 0 20px #00eaff, 0 0 40px #00eaff;
-            }
+            from { box-shadow: 0 0 10px #00ff9c, 0 0 20px #00ff9c; }
+            to { box-shadow: 0 0 20px #00eaff, 0 0 40px #00eaff; }
         }
+        /* Стили для индикатора силы пароля (оставляем твои точки) */
+        .strength-bar { transition: all 0.3s; }
     </style>
 </head>
 <body class="bg-[#0f0f0f] text-white">
 
-<!-- ===== LOGIN PAGE ===== -->
-<div id="loginPage" class="min-h-screen flex items-center justify-center p-4">
-    <div class="w-full max-w-md">
-        <div class="bg-[#1b1b1b] rounded-2xl p-8 border border-[#00ff9c]/20 glow">
-            <div class="text-center mb-8">
-                <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff]">
-                    YourTigranmods
-                </h1>
-                <p class="text-[#b5b5b5] mt-2">Sign in to your dashboard</p>
-            </div>
-
-            <form id="loginForm" class="space-y-6">
-                <div>
-                    <label class="block text-white mb-2">Email</label>
-                    <input type="email" id="loginEmail" class="w-full bg-[#0f0f0f] border border-[#00ff9c]/20 rounded-lg px-4 py-3 text-white focus:border-[#00ff9c] focus:outline-none" placeholder="Enter your email" required>
-                </div>
-                <div>
-                    <label class="block text-white mb-2">Password</label>
-                    <input type="password" id="loginPassword" class="w-full bg-[#0f0f0f] border border-[#00ff9c]/20 rounded-lg px-4 py-3 text-white focus:border-[#00ff9c] focus:outline-none" placeholder="Enter your password" required>
-                </div>
-                <div class="flex items-center justify-between">
-                    <label class="flex items-center space-x-2">
-                        <input type="checkbox" class="w-4 h-4 bg-[#0f0f0f] border border-[#00ff9c]/20 rounded accent-[#00ff9c]">
-                        <span class="text-[#b5b5b5]">Remember me</span>
-                    </label>
-                    <a href="#" onclick="showPage('forgotPage')" class="text-[#00ff9c] hover:text-[#00eaff]">Forgot password?</a>
-                </div>
-                <button type="submit" class="w-full bg-[#00ff9c] text-[#0f0f0f] font-bold py-3 rounded-lg hover:bg-[#00eaff] transition-all transform hover:scale-105">
-                    Sign In
-                </button>
-            </form>
-
-            <p class="text-center mt-6 text-[#b5b5b5]">
-                Don't have an account? 
-                <a href="#" onclick="showPage('registerPage')" class="text-[#00ff9c] hover:text-[#00eaff]">Create account</a>
-            </p>
-        </div>
-    </div>
-</div>
-
-<!-- ===== REGISTER PAGE ===== -->
-<div id="registerPage" style="display: none;" class="min-h-screen flex items-center justify-center p-4">
-    <div class="w-full max-w-md">
-        <div class="bg-[#1b1b1b] rounded-2xl p-8 border border-[#00ff9c]/20">
-            <div class="text-center mb-8">
-                <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff]">
-                    Create Account
-                </h1>
-                <p class="text-[#b5b5b5] mt-2">Join YourTigranmods community</p>
-            </div>
-
-            <form id="registerForm" class="space-y-4">
-                <div>
-                    <label class="block text-white mb-2">Username *</label>
-                    <input type="text" id="regUsername" class="w-full bg-[#0f0f0f] border border-[#00ff9c]/20 rounded-lg px-4 py-3 text-white focus:border-[#00ff9c] focus:outline-none" required>
-                </div>
-                <div>
-                    <label class="block text-white mb-2">Email *</label>
-                    <input type="email" id="regEmail" class="w-full bg-[#0f0f0f] border border-[#00ff9c]/20 rounded-lg px-4 py-3 text-white focus:border-[#00ff9c] focus:outline-none" required>
-                </div>
-                <div>
-                    <label class="block text-white mb-2">Telegram ID (optional)</label>
-                    <input type="text" id="regTelegram" class="w-full bg-[#0f0f0f] border border-[#00ff9c]/20 rounded-lg px-4 py-3 text-white focus:border-[#00ff9c] focus:outline-none" placeholder="@username">
-                </div>
-                <div>
-                    <label class="block text-white mb-2">Password *</label>
-                    <input type="password" id="regPassword" class="w-full bg-[#0f0f0f] border border-[#00ff9c]/20 rounded-lg px-4 py-3 text-white focus:border-[#00ff9c] focus:outline-none" required onkeyup="checkPasswordStrength(this.value)">
-                </div>
-                <div class="flex gap-1 h-1" id="strengthMeter">
-                    <div class="flex-1 bg-gray-600 rounded"></div>
-                    <div class="flex-1 bg-gray-600 rounded"></div>
-                    <div class="flex-1 bg-gray-600 rounded"></div>
-                    <div class="flex-1 bg-gray-600 rounded"></div>
-                    <div class="flex-1 bg-gray-600 rounded"></div>
-                </div>
-                <div>
-                    <label class="block text-white mb-2">Confirm Password *</label>
-                    <input type="password" id="regConfirmPassword" class="w-full bg-[#0f0f0f] border border-[#00ff9c]/20 rounded-lg px-4 py-3 text-white focus:border-[#00ff9c] focus:outline-none" required>
-                </div>
-                <div>
-                    <label class="block text-white mb-2">Referral Code (optional)</label>
-                    <input type="text" id="regReferral" class="w-full bg-[#0f0f0f] border border-[#00ff9c]/20 rounded-lg px-4 py-3 text-white focus:border-[#00ff9c] focus:outline-none">
-                </div>
-                <button type="submit" class="w-full bg-[#00ff9c] text-[#0f0f0f] font-bold py-3 rounded-lg hover:bg-[#00eaff] transition-all transform hover:scale-105 mt-6">
-                    Create Account
-                </button>
-            </form>
-
-            <p class="text-center mt-6 text-[#b5b5b5]">
-                Already have an account? 
-                <a href="#" onclick="showPage('loginPage')" class="text-[#00ff9c] hover:text-[#00eaff]">Sign in</a>
-            </p>
-        </div>
-    </div>
-</div>
-
-<!-- ===== FORGOT PASSWORD PAGE ===== -->
-<div id="forgotPage" style="display: none;" class="min-h-screen flex items-center justify-center p-4">
-    <div class="w-full max-w-md">
-        <div class="bg-[#1b1b1b] rounded-2xl p-8 border border-[#00ff9c]/20">
-            <h2 class="text-2xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff] mb-6">Reset Password</h2>
-            <form id="forgotForm" class="space-y-4">
-                <input type="email" id="forgotEmail" placeholder="Enter your email" class="w-full bg-[#0f0f0f] border border-[#00ff9c]/20 rounded-lg px-4 py-3 text-white focus:border-[#00ff9c] focus:outline-none" required>
-                <button type="submit" class="w-full bg-[#00ff9c] text-[#0f0f0f] font-bold py-3 rounded-lg hover:bg-[#00eaff]">Send Reset Link</button>
-            </form>
-            <p class="text-center mt-4">
-                <a href="#" onclick="showPage('loginPage')" class="text-[#00ff9c] hover:text-[#00eaff]">Back to Login</a>
-            </p>
-        </div>
-    </div>
-</div>
+<!-- Контейнер для страниц -->
+<div id="app"></div>
 
 <script>
-    // Page navigation
+    // ========== КОНФИГУРАЦИЯ ==========
+    const API_URL = "https://yourtigranmods-api-4.mirzoyantigran6.repl.co";
+    
+    // ========== СОСТОЯНИЕ ПРИЛОЖЕНИЯ ==========
+    let currentUser = null;
+
+    // ========== ФУНКЦИИ НАВИГАЦИИ ==========
     function showPage(pageId) {
-        document.getElementById('loginPage').style.display = 'none';
-        document.getElementById('registerPage').style.display = 'none';
-        document.getElementById('forgotPage').style.display = 'none';
-        document.getElementById(pageId).style.display = 'flex';
+        document.getElementById('app').innerHTML = pages[pageId]();
+        if (pageId === 'dashboard' && currentUser) {
+            loadDashboardData();
+        }
     }
 
-    // Password strength
-    function checkPasswordStrength(password) {
+    // ========== ПРОВЕРКА АВТОРИЗАЦИИ ПРИ ЗАГРУЗКЕ ==========
+    (function checkAuth() {
+        const savedUser = localStorage.getItem('user');
+        const token = localStorage.getItem('token');
+        if (savedUser && token) {
+            currentUser = JSON.parse(savedUser);
+            showPage('dashboard');
+        } else {
+            showPage('login');
+        }
+    })();
+
+    // ========== ОТПРАВКА ЗАПРОСОВ К API ==========
+    async function apiRequest(endpoint, method = 'GET', body = null) {
+        const options = {
+            method,
+            headers: { 'Content-Type': 'application/json' },
+        };
+        if (body) options.body = JSON.stringify(body);
+
+        const response = await fetch(`${API_URL}${endpoint}`, options);
+        return await response.json();
+    }
+
+    // ========== ЛОГИКА ЛОГИНА ==========
+    async function handleLogin(email, password) {
+        const result = await apiRequest('/api/login', 'POST', { email, password });
+        if (result.success) {
+            currentUser = result.user;
+            localStorage.setItem('token', result.token || 'temp-token');
+            localStorage.setItem('user', JSON.stringify(result.user));
+            showPage('dashboard');
+        } else {
+            alert(result.error || 'Login failed');
+        }
+    }
+
+    // ========== ЛОГИКА РЕГИСТРАЦИИ ==========
+    async function handleRegister(userData) {
+        const result = await apiRequest('/api/register', 'POST', userData);
+        if (result.success) {
+            alert('Registration successful! Please login.');
+            showPage('login');
+        } else {
+            alert(result.error || 'Registration failed');
+        }
+    }
+
+    // ========== ЛОГАУТ ==========
+    function handleLogout() {
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
+        currentUser = null;
+        showPage('login');
+    }
+
+    // ========== ОТПРАВКА ЗАПРОСА НА СБРОС ПАРОЛЯ ==========
+    function handleForgot(email) {
+        // Здесь можно добавить реальный запрос к API, если есть эндпоинт
+        alert(`Password reset link would be sent to ${email} (demo)`);
+        showPage('login');
+    }
+
+    // ========== ЗАГРУЗКА ДАННЫХ ДЛЯ ДАШБОРДА ==========
+    async function loadDashboardData() {
+        // Здесь можно добавить загрузку статистики с API
+        // Например: const stats = await apiRequest('/api/stats');
+    }
+
+    // ========== СТРАНИЦЫ (TEMPLATES) ==========
+    const pages = {
+        login: () => `
+            <div class="min-h-screen flex items-center justify-center p-4">
+                <div class="w-full max-w-md">
+                    <div class="bg-[#1b1b1b] rounded-2xl p-8 border border-[#00ff9c]/20 glow">
+                        <div class="text-center mb-8">
+                            <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff]">
+                                YourTigranmods
+                            </h1>
+                            <p class="text-[#b5b5b5] mt-2">Sign in to your dashboard</p>
+                        </div>
+                        <form onsubmit="event.preventDefault(); handleLogin(document.getElementById('loginEmail').value, document.getElementById('loginPassword').value)" class="space-y-6">
+                            <div>
+                                <label class="block text-white mb-2">Email</label>
+                                <input type="email" id="loginEmail" class="w-full bg-[#0f0f0f] border border-[#00ff9c]/20 rounded-lg px-4 py-3 text-white focus:border-[#00ff9c] focus:outline-none" placeholder="Enter your email" required>
+                            </div>
+                            <div>
+                                <label class="block text-white mb-2">Password</label>
+                                <input type="password" id="loginPassword" class="w-full bg-[#0f0f0f] border border-[#00ff9c]/20 rounded-lg px-4 py-3 text-white focus:border-[#00ff9c] focus:outline-none" placeholder="Enter your password" required>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" class="w-4 h-4 bg-[#0f0f0f] border border-[#00ff9c]/20 rounded accent-[#00ff9c]">
+                                    <span class="text-[#b5b5b5]">Remember me</span>
+                                </label>
+                                <a href="#" onclick="showPage('forgot')" class="text-[#00ff9c] hover:text-[#00eaff]">Forgot password?</a>
+                            </div>
+                            <button type="submit" class="w-full bg-[#00ff9c] text-[#0f0f0f] font-bold py-3 rounded-lg hover:bg-[#00eaff] transition-all transform hover:scale-105">
+                                Sign In
+                            </button>
+                        </form>
+                        <p class="text-center mt-6 text-[#b5b5b5]">
+                            Don't have an account? 
+                            <a href="#" onclick="showPage('register')" class="text-[#00ff9c] hover:text-[#00eaff]">Create account</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        `,
+
+        register: () => `
+            <div class="min-h-screen flex items-center justify-center p-4">
+                <div class="w-full max-w-md">
+                    <div class="bg-[#1b1b1b] rounded-2xl p-8 border border-[#00ff9c]/20">
+                        <div class="text-center mb-8">
+                            <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff]">
+                                Create Account
+                            </h1>
+                            <p class="text-[#b5b5b5] mt-2">Join YourTigranmods community</p>
+                        </div>
+                        <form onsubmit="event.preventDefault(); handleRegister({
+                            username: document.getElementById('regUsername').value,
+                            email: document.getElementById('regEmail').value,
+                            tg_username: document.getElementById('regTelegram').value,
+                            password: document.getElementById('regPassword').value,
+                            role: 'user'
+                        })" class="space-y-4">
+                            <div>
+                                <label class="block text-white mb-2">Username *</label>
+                                <input type="text" id="regUsername" class="w-full bg-[#0f0f0f] border border-[#00ff9c]/20 rounded-lg px-4 py-3 text-white focus:border-[#00ff9c] focus:outline-none" required>
+                            </div>
+                            <div>
+                                <label class="block text-white mb-2">Email *</label>
+                                <input type="email" id="regEmail" class="w-full bg-[#0f0f0f] border border-[#00ff9c]/20 rounded-lg px-4 py-3 text-white focus:border-[#00ff9c] focus:outline-none" required>
+                            </div>
+                            <div>
+                                <label class="block text-white mb-2">Telegram ID (optional)</label>
+                                <input type="text" id="regTelegram" class="w-full bg-[#0f0f0f] border border-[#00ff9c]/20 rounded-lg px-4 py-3 text-white focus:border-[#00ff9c] focus:outline-none" placeholder="@username">
+                            </div>
+                            <div>
+                                <label class="block text-white mb-2">Password *</label>
+                                <input type="password" id="regPassword" class="w-full bg-[#0f0f0f] border border-[#00ff9c]/20 rounded-lg px-4 py-3 text-white focus:border-[#00ff9c] focus:outline-none" required onkeyup="checkPasswordStrength(this.value)">
+                            </div>
+                            <div class="flex gap-1 h-1" id="strengthMeter">
+                                <div class="flex-1 bg-gray-600 rounded"></div>
+                                <div class="flex-1 bg-gray-600 rounded"></div>
+                                <div class="flex-1 bg-gray-600 rounded"></div>
+                                <div class="flex-1 bg-gray-600 rounded"></div>
+                                <div class="flex-1 bg-gray-600 rounded"></div>
+                            </div>
+                            <div>
+                                <label class="block text-white mb-2">Confirm Password *</label>
+                                <input type="password" id="regConfirmPassword" class="w-full bg-[#0f0f0f] border border-[#00ff9c]/20 rounded-lg px-4 py-3 text-white focus:border-[#00ff9c] focus:outline-none" required>
+                            </div>
+                            <div>
+                                <label class="block text-white mb-2">Referral Code (optional)</label>
+                                <input type="text" id="regReferral" class="w-full bg-[#0f0f0f] border border-[#00ff9c]/20 rounded-lg px-4 py-3 text-white focus:border-[#00ff9c] focus:outline-none">
+                            </div>
+                            <button type="submit" class="w-full bg-[#00ff9c] text-[#0f0f0f] font-bold py-3 rounded-lg hover:bg-[#00eaff] transition-all transform hover:scale-105 mt-6">
+                                Create Account
+                            </button>
+                        </form>
+                        <p class="text-center mt-6 text-[#b5b5b5]">
+                            Already have an account? 
+                            <a href="#" onclick="showPage('login')" class="text-[#00ff9c] hover:text-[#00eaff]">Sign in</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        `,
+
+        forgot: () => `
+            <div class="min-h-screen flex items-center justify-center p-4">
+                <div class="w-full max-w-md">
+                    <div class="bg-[#1b1b1b] rounded-2xl p-8 border border-[#00ff9c]/20">
+                        <h2 class="text-2xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff] mb-6">Reset Password</h2>
+                        <form onsubmit="event.preventDefault(); handleForgot(document.getElementById('forgotEmail').value)" class="space-y-4">
+                            <input type="email" id="forgotEmail" placeholder="Enter your email" class="w-full bg-[#0f0f0f] border border-[#00ff9c]/20 rounded-lg px-4 py-3 text-white focus:border-[#00ff9c] focus:outline-none" required>
+                            <button type="submit" class="w-full bg-[#00ff9c] text-[#0f0f0f] font-bold py-3 rounded-lg hover:bg-[#00eaff]">Send Reset Link</button>
+                        </form>
+                        <p class="text-center mt-4">
+                            <a href="#" onclick="showPage('login')" class="text-[#00ff9c] hover:text-[#00eaff]">Back to Login</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        `,
+
+        dashboard: () => `
+            <div class="min-h-screen bg-[#0f0f0f] p-6">
+                <div class="max-w-7xl mx-auto">
+                    <div class="flex justify-between items-center mb-8">
+                        <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff]">
+                            Dashboard
+                        </h1>
+                        <div class="flex items-center gap-4">
+                            <span class="text-[#b5b5b5]">Welcome, <span class="text-white font-bold">${currentUser?.username || 'User'}</span>!</span>
+                            <button onclick="handleLogout()" class="bg-red-500/20 border border-red-500 text-red-500 px-4 py-2 rounded-lg hover:bg-red-500/30 transition">
+                                Logout
+                            </button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-[#1b1b1b] p-6 rounded-xl border border-[#00ff9c]/20">
+                            <h3 class="text-[#00ff9c] font-semibold mb-2">Your Role</h3>
+                            <p class="text-2xl font-bold text-white">${currentUser?.role || 'user'}</p>
+                        </div>
+                        <div class="bg-[#1b1b1b] p-6 rounded-xl border border-[#00ff9c]/20">
+                            <h3 class="text-[#00ff9c] font-semibold mb-2">Email</h3>
+                            <p class="text-white">${currentUser?.email || 'N/A'}</p>
+                        </div>
+                        <div class="bg-[#1b1b1b] p-6 rounded-xl border border-[#00ff9c]/20">
+                            <h3 class="text-[#00ff9c] font-semibold mb-2">Account Status</h3>
+                            <p class="text-green-400 font-bold">Active</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `
+    };
+
+    // ========== ПРОВЕРКА СЛОЖНОСТИ ПАРОЛЯ ==========
+    window.checkPasswordStrength = function(password) {
         let strength = 0;
         if (password.length >= 8) strength++;
         if (password.match(/[a-z]/)) strength++;
@@ -163,38 +271,14 @@
         if (password.match(/[^a-zA-Z0-9]/)) strength++;
 
         const colors = ['bg-red-500', 'bg-orange-500', 'bg-yellow-500', 'bg-[#00ff9c]', 'bg-[#00eaff]'];
-        const meter = document.getElementById('strengthMeter').children;
+        const meter = document.getElementById('strengthMeter')?.children;
         
         if (meter) {
             for (let i = 0; i < 5; i++) {
                 meter[i].className = i < strength ? `flex-1 ${colors[strength-1]} rounded` : 'flex-1 bg-gray-600 rounded';
             }
         }
-    }
-
-    // Form submissions
-    document.getElementById('loginForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        window.location.href = 'dashboard.html';
-    });
-
-    document.getElementById('registerForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const pass = document.getElementById('regPassword').value;
-        const confirm = document.getElementById('regConfirmPassword').value;
-        if (pass !== confirm) {
-            alert('Passwords do not match!');
-            return;
-        }
-        alert('Registration successful! Please login.');
-        showPage('loginPage');
-    });
-
-    document.getElementById('forgotForm').addEventListener('submit', (e) => {
-        e.preventDefault();
-        alert('Password reset link sent!');
-        showPage('loginPage');
-    });
+    };
 </script>
 
 </body>
