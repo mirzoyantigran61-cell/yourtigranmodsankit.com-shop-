@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YourTigranmods - Login</title>
+    <title>YourTigranmods - Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap');
         
@@ -21,12 +22,32 @@
         }
         
         @keyframes glow {
-            from {
-                box-shadow: 0 0 10px #00ff9c, 0 0 20px #00ff9c;
-            }
-            to {
-                box-shadow: 0 0 20px #00eaff, 0 0 40px #00eaff;
-            }
+            from { box-shadow: 0 0 10px #00ff9c, 0 0 20px #00ff9c; }
+            to { box-shadow: 0 0 20px #00eaff, 0 0 40px #00eaff; }
+        }
+
+        .sidebar {
+            transition: width 0.3s;
+        }
+
+        .card-hover {
+            transition: all 0.3s;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 255, 156, 0.2);
+        }
+
+        .nav-link {
+            transition: all 0.3s;
+        }
+        .nav-link:hover {
+            background: rgba(0, 255, 156, 0.1);
+            border-left: 3px solid #00ff9c;
+        }
+        .nav-link.active {
+            background: rgba(0, 255, 156, 0.2);
+            border-left: 3px solid #00ff9c;
         }
     </style>
 </head>
@@ -98,22 +119,11 @@
                 </div>
                 <div>
                     <label class="block text-white mb-2">Password *</label>
-                    <input type="password" id="regPassword" class="w-full bg-[#0f0f0f] border border-[#00ff9c]/20 rounded-lg px-4 py-3 text-white focus:border-[#00ff9c] focus:outline-none" required onkeyup="checkPasswordStrength(this.value)">
-                </div>
-                <div class="flex gap-1 h-1" id="strengthMeter">
-                    <div class="flex-1 bg-gray-600 rounded"></div>
-                    <div class="flex-1 bg-gray-600 rounded"></div>
-                    <div class="flex-1 bg-gray-600 rounded"></div>
-                    <div class="flex-1 bg-gray-600 rounded"></div>
-                    <div class="flex-1 bg-gray-600 rounded"></div>
+                    <input type="password" id="regPassword" class="w-full bg-[#0f0f0f] border border-[#00ff9c]/20 rounded-lg px-4 py-3 text-white focus:border-[#00ff9c] focus:outline-none" required>
                 </div>
                 <div>
                     <label class="block text-white mb-2">Confirm Password *</label>
                     <input type="password" id="regConfirmPassword" class="w-full bg-[#0f0f0f] border border-[#00ff9c]/20 rounded-lg px-4 py-3 text-white focus:border-[#00ff9c] focus:outline-none" required>
-                </div>
-                <div>
-                    <label class="block text-white mb-2">Referral Code (optional)</label>
-                    <input type="text" id="regReferral" class="w-full bg-[#0f0f0f] border border-[#00ff9c]/20 rounded-lg px-4 py-3 text-white focus:border-[#00ff9c] focus:outline-none">
                 </div>
                 <button type="submit" class="w-full bg-[#00ff9c] text-[#0f0f0f] font-bold py-3 rounded-lg hover:bg-[#00eaff] transition-all transform hover:scale-105 mt-6">
                     Create Account
@@ -144,40 +154,287 @@
     </div>
 </div>
 
+<!-- ===== DASHBOARD PAGE ===== -->
+<div id="dashboardPage" style="display: none;" class="min-h-screen bg-[#0f0f0f]">
+    <!-- Верхняя панель -->
+    <div class="bg-[#1b1b1b] border-b border-[#00ff9c]/20 p-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff]">
+                YourTigranmods
+            </h1>
+            <div class="flex items-center space-x-4">
+                <span class="text-[#b5b5b5]">Welcome, <span id="usernameDisplay" class="text-white font-bold">User</span>!</span>
+                <button onclick="logout()" class="bg-red-500/20 border border-red-500 text-red-500 px-4 py-2 rounded-lg hover:bg-red-500/30 transition">
+                    Logout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Навигационное меню -->
+    <div class="bg-[#1b1b1b] border-b border-[#00ff9c]/20">
+        <div class="max-w-7xl mx-auto">
+            <nav class="flex space-x-1 p-2">
+                <button onclick="showDashboardSection('home')" id="nav-home" class="nav-link px-4 py-2 rounded-lg text-[#b5b5b5] hover:text-white active">Dashboard</button>
+                <button onclick="showDashboardSection('keys')" id="nav-keys" class="nav-link px-4 py-2 rounded-lg text-[#b5b5b5] hover:text-white">Key Manager</button>
+                <button onclick="showDashboardSection('downloads')" id="nav-downloads" class="nav-link px-4 py-2 rounded-lg text-[#b5b5b5] hover:text-white">Downloads</button>
+                <button onclick="showDashboardSection('settings')" id="nav-settings" class="nav-link px-4 py-2 rounded-lg text-[#b5b5b5] hover:text-white">Settings</button>
+                <button onclick="showDashboardSection('security')" id="nav-security" class="nav-link px-4 py-2 rounded-lg text-[#b5b5b5] hover:text-white">Security</button>
+                <button onclick="showDashboardSection('support')" id="nav-support" class="nav-link px-4 py-2 rounded-lg text-[#b5b5b5] hover:text-white">Support</button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Основной контент (динамически меняется) -->
+    <div id="dashboardContent" class="max-w-7xl mx-auto p-8">
+        <!-- Домашняя страница дашборда -->
+        <div id="section-home">
+            <h2 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff] mb-8">
+                Dashboard Home
+            </h2>
+
+            <!-- Статистика -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="bg-[#1b1b1b] p-6 rounded-xl border border-[#00ff9c]/20 card-hover">
+                    <p class="text-[#b5b5b5] text-sm">Active Licenses</p>
+                    <p class="text-3xl font-bold text-white mt-2">3</p>
+                </div>
+                <div class="bg-[#1b1b1b] p-6 rounded-xl border border-[#00ff9c]/20 card-hover">
+                    <p class="text-[#b5b5b5] text-sm">Account Status</p>
+                    <p class="text-3xl font-bold text-green-400 mt-2">Active</p>
+                </div>
+                <div class="bg-[#1b1b1b] p-6 rounded-xl border border-[#00ff9c]/20 card-hover">
+                    <p class="text-[#b5b5b5] text-sm">Role</p>
+                    <p class="text-3xl font-bold text-[#00eaff] mt-2" id="userRole">user</p>
+                </div>
+                <div class="bg-[#1b1b1b] p-6 rounded-xl border border-[#00ff9c]/20 card-hover">
+                    <p class="text-[#b5b5b5] text-sm">Last Login</p>
+                    <p class="text-xl font-bold text-white mt-2">2 hours ago</p>
+                </div>
+            </div>
+
+            <!-- Активность -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-[#1b1b1b] rounded-xl border border-[#00ff9c]/20 p-6">
+                    <h3 class="text-xl font-bold text-white mb-4">Latest Activity</h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between p-3 bg-[#0f0f0f] rounded-lg">
+                            <span class="text-white">License activated: SPEED-2024-X9K2</span>
+                            <span class="text-[#b5b5b5] text-sm">2 min ago</span>
+                        </div>
+                        <div class="flex justify-between p-3 bg-[#0f0f0f] rounded-lg">
+                            <span class="text-white">Settings updated: Security</span>
+                            <span class="text-[#b5b5b5] text-sm">1 hour ago</span>
+                        </div>
+                        <div class="flex justify-between p-3 bg-[#0f0f0f] rounded-lg">
+                            <span class="text-white">New download: AIM Config v2.1</span>
+                            <span class="text-[#b5b5b5] text-sm">3 hours ago</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-[#1b1b1b] rounded-xl border border-[#00ff9c]/20 p-6">
+                    <h3 class="text-xl font-bold text-white mb-4">Latest Updates</h3>
+                    <div class="space-y-4">
+                        <div class="p-3 bg-[#0f0f0f] rounded-lg">
+                            <p class="text-white font-medium">🎯 Aim Silent v2.5 released</p>
+                            <p class="text-[#b5b5b5] text-sm mt-1">New smoothing options and FOV control</p>
+                        </div>
+                        <div class="p-3 bg-[#0f0f0f] rounded-lg">
+                            <p class="text-white font-medium">⚡ SpeedHack optimization</p>
+                            <p class="text-[#b5b5b5] text-sm mt-1">20% faster performance on Android 14+</p>
+                        </div>
+                        <div class="p-3 bg-[#0f0f0f] rounded-lg">
+                            <p class="text-white font-medium">🔧 Root Panel update</p>
+                            <p class="text-[#b5b5b5] text-sm mt-1">Added kernel-level protection</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Manager Section -->
+        <div id="section-keys" style="display: none;">
+            <h2 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff] mb-8">
+                Key Manager
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-[#1b1b1b] p-6 rounded-xl border border-[#00ff9c]/20">
+                    <p class="text-[#b5b5b5]">Active Keys</p>
+                    <p class="text-3xl font-bold text-white">3</p>
+                </div>
+                <div class="bg-[#1b1b1b] p-6 rounded-xl border border-[#00ff9c]/20">
+                    <p class="text-[#b5b5b5]">Total Keys</p>
+                    <p class="text-3xl font-bold text-white">5</p>
+                </div>
+                <div class="bg-[#1b1b1b] p-6 rounded-xl border border-[#00ff9c]/20">
+                    <p class="text-[#b5b5b5]">Expiring Soon</p>
+                    <p class="text-3xl font-bold text-yellow-400">1</p>
+                </div>
+            </div>
+
+            <div class="bg-[#1b1b1b] rounded-xl border border-[#00ff9c]/20 overflow-hidden">
+                <table class="w-full">
+                    <thead class="bg-[#0f0f0f] border-b border-[#00ff9c]/20">
+                        <tr>
+                            <th class="text-left p-4 text-[#00ff9c]">License Key</th>
+                            <th class="text-left p-4 text-[#00ff9c]">Status</th>
+                            <th class="text-left p-4 text-[#00ff9c]">Created</th>
+                            <th class="text-left p-4 text-[#00ff9c]">Expires</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b border-[#00ff9c]/10">
+                            <td class="p-4 font-mono text-white">SPEED-2024-X9K2</td>
+                            <td class="p-4"><span class="px-3 py-1 rounded-full bg-green-500/20 text-green-400">Active</span></td>
+                            <td class="p-4 text-[#b5b5b5]">2024-01-15</td>
+                            <td class="p-4 text-[#b5b5b5]">2024-02-15</td>
+                        </tr>
+                        <tr class="border-b border-[#00ff9c]/10">
+                            <td class="p-4 font-mono text-white">VIP-2024-ALPHA</td>
+                            <td class="p-4"><span class="px-3 py-1 rounded-full bg-green-500/20 text-green-400">Active</span></td>
+                            <td class="p-4 text-[#b5b5b5]">2024-01-20</td>
+                            <td class="p-4 text-[#b5b5b5]">2024-02-20</td>
+                        </tr>
+                        <tr class="border-b border-[#00ff9c]/10">
+                            <td class="p-4 font-mono text-white">AIM-2024-BETA</td>
+                            <td class="p-4"><span class="px-3 py-1 rounded-full bg-red-500/20 text-red-400">Expired</span></td>
+                            <td class="p-4 text-[#b5b5b5]">2023-12-01</td>
+                            <td class="p-4 text-[#b5b5b5]">2024-01-01</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-6 bg-[#1b1b1b] rounded-xl border border-[#00ff9c]/20 p-6">
+                <h3 class="text-xl font-bold text-white mb-4">Generate New License</h3>
+                <button onclick="alert('Generate license')" class="bg-[#00ff9c] text-[#0f0f0f] px-6 py-3 rounded-lg font-bold hover:bg-[#00eaff]">
+                    Generate Random Key
+                </button>
+            </div>
+        </div>
+
+        <!-- Downloads Section -->
+        <div id="section-downloads" style="display: none;">
+            <h2 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff] mb-8">
+                Downloads
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-[#1b1b1b] rounded-xl border border-[#00ff9c]/20 p-6 card-hover">
+                    <i class="fas fa-bolt text-[#00ff9c] text-3xl mb-4"></i>
+                    <h3 class="text-xl font-bold text-white mb-2">SpeedHack v3.2</h3>
+                    <p class="text-[#b5b5b5] text-sm mb-4">Android 10-15 • 25 MB</p>
+                    <button class="w-full bg-[#00ff9c]/20 border border-[#00ff9c] text-[#00ff9c] py-2 rounded-lg hover:bg-[#00ff9c] hover:text-[#0f0f0f] transition">Download</button>
+                </div>
+                <div class="bg-[#1b1b1b] rounded-xl border border-[#00ff9c]/20 p-6 card-hover">
+                    <i class="fas fa-crosshairs text-[#00ff9c] text-3xl mb-4"></i>
+                    <h3 class="text-xl font-bold text-white mb-2">Aim Silent v2.5</h3>
+                    <p class="text-[#b5b5b5] text-sm mb-4">Android 10-15 • 18 MB</p>
+                    <button class="w-full bg-[#00ff9c]/20 border border-[#00ff9c] text-[#00ff9c] py-2 rounded-lg hover:bg-[#00ff9c] hover:text-[#0f0f0f] transition">Download</button>
+                </div>
+                <div class="bg-[#1b1b1b] rounded-xl border border-[#00ff9c]/20 p-6 card-hover">
+                    <i class="fas fa-dragon text-[#00ff9c] text-3xl mb-4"></i>
+                    <h3 class="text-xl font-bold text-white mb-2">Root Panel v1.8</h3>
+                    <p class="text-[#b5b5b5] text-sm mb-4">Android 10-15 • 32 MB</p>
+                    <button class="w-full bg-[#00ff9c]/20 border border-[#00ff9c] text-[#00ff9c] py-2 rounded-lg hover:bg-[#00ff9c] hover:text-[#0f0f0f] transition">Download</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Section -->
+        <div id="section-settings" style="display: none;">
+            <h2 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff] mb-8">
+                Settings
+            </h2>
+            <div class="bg-[#1b1b1b] rounded-xl border border-[#00ff9c]/20 p-6">
+                <h3 class="text-xl font-bold text-white mb-4">Profile Settings</h3>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-[#b5b5b5] mb-2">Username</label>
+                        <input type="text" value="Tigran" class="w-full bg-[#0f0f0f] border border-[#00ff9c]/20 rounded-lg px-4 py-2 text-white">
+                    </div>
+                    <div>
+                        <label class="block text-[#b5b5b5] mb-2">Email</label>
+                        <input type="email" value="mirzoyantigran61@gmail.com" class="w-full bg-[#0f0f0f] border border-[#00ff9c]/20 rounded-lg px-4 py-2 text-white">
+                    </div>
+                    <button class="bg-[#00ff9c] text-[#0f0f0f] px-6 py-2 rounded-lg font-bold hover:bg-[#00eaff]">Save Changes</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security Section -->
+        <div id="section-security" style="display: none;">
+            <h2 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff] mb-8">
+                Security
+            </h2>
+            <div class="bg-[#1b1b1b] rounded-xl border border-[#00ff9c]/20 p-6">
+                <h3 class="text-xl font-bold text-white mb-4">Change Password</h3>
+                <div class="space-y-4">
+                    <input type="password" placeholder="Current Password" class="w-full bg-[#0f0f0f] border border-[#00ff9c]/20 rounded-lg px-4 py-2 text-white">
+                    <input type="password" placeholder="New Password" class="w-full bg-[#0f0f0f] border border-[#00ff9c]/20 rounded-lg px-4 py-2 text-white">
+                    <input type="password" placeholder="Confirm New Password" class="w-full bg-[#0f0f0f] border border-[#00ff9c]/20 rounded-lg px-4 py-2 text-white">
+                    <button class="bg-[#00ff9c] text-[#0f0f0f] px-6 py-2 rounded-lg font-bold hover:bg-[#00eaff]">Update Password</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Support Section -->
+        <div id="section-support" style="display: none;">
+            <h2 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff] mb-8">
+                Support
+            </h2>
+            <div class="bg-[#1b1b1b] rounded-xl border border-[#00ff9c]/20 p-6">
+                <h3 class="text-xl font-bold text-white mb-4">Contact Support</h3>
+                <p class="text-[#b5b5b5] mb-4">Email: support@yourtigranmods.com</p>
+                <p class="text-[#b5b5b5] mb-4">Telegram: @YourTigranmods</p>
+                <button class="bg-[#00ff9c] text-[#0f0f0f] px-6 py-2 rounded-lg font-bold hover:bg-[#00eaff]">Open Ticket</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     // ===== ПРОВЕРКА АВТОРИЗАЦИИ =====
     (function checkAuth() {
-        // Если пользователь уже залогинен — сразу кидаем в дашборд
-        if (localStorage.getItem('user')) {
-            window.location.href = 'dashboard.html';
+        const user = localStorage.getItem('user');
+        if (user) {
+            const userData = JSON.parse(user);
+            document.getElementById('usernameDisplay').textContent = userData.username || 'User';
+            document.getElementById('userRole').textContent = userData.role || 'user';
+            showPage('dashboardPage');
+        } else {
+            showPage('loginPage');
         }
     })();
 
-    // ===== НАВИГАЦИЯ =====
+    // ===== НАВИГАЦИЯ МЕЖДУ СТРАНИЦАМИ =====
     function showPage(pageId) {
         document.getElementById('loginPage').style.display = 'none';
         document.getElementById('registerPage').style.display = 'none';
         document.getElementById('forgotPage').style.display = 'none';
+        document.getElementById('dashboardPage').style.display = 'none';
         document.getElementById(pageId).style.display = 'flex';
     }
 
-    // ===== ПРОВЕРКА СЛОЖНОСТИ ПАРОЛЯ =====
-    function checkPasswordStrength(password) {
-        let strength = 0;
-        if (password.length >= 8) strength++;
-        if (password.match(/[a-z]/)) strength++;
-        if (password.match(/[A-Z]/)) strength++;
-        if (password.match(/[0-9]/)) strength++;
-        if (password.match(/[^a-zA-Z0-9]/)) strength++;
-
-        const colors = ['bg-red-500', 'bg-orange-500', 'bg-yellow-500', 'bg-[#00ff9c]', 'bg-[#00eaff]'];
-        const meter = document.getElementById('strengthMeter').children;
+    // ===== НАВИГАЦИЯ ВНУТРИ ДАШБОРДА =====
+    function showDashboardSection(section) {
+        // Скрываем все секции
+        document.getElementById('section-home').style.display = 'none';
+        document.getElementById('section-keys').style.display = 'none';
+        document.getElementById('section-downloads').style.display = 'none';
+        document.getElementById('section-settings').style.display = 'none';
+        document.getElementById('section-security').style.display = 'none';
+        document.getElementById('section-support').style.display = 'none';
         
-        if (meter) {
-            for (let i = 0; i < 5; i++) {
-                meter[i].className = i < strength ? `flex-1 ${colors[strength-1]} rounded` : 'flex-1 bg-gray-600 rounded';
-            }
-        }
+        // Показываем выбранную секцию
+        document.getElementById(`section-${section}`).style.display = 'block';
+        
+        // Обновляем активный класс на кнопках
+        document.querySelectorAll('.nav-link').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.getElementById(`nav-${section}`).classList.add('active');
     }
 
     // ===== ЛОГИН =====
@@ -187,16 +444,16 @@
         const email = document.getElementById('loginEmail').value;
         const password = document.getElementById('loginPassword').value;
         
-        // Проверка для демо
         if (email === 'mirzoyantigran61@gmail.com' && password === 'admin123') {
-            // Сохраняем пользователя
             localStorage.setItem('user', JSON.stringify({ 
                 email: email, 
                 username: 'Tigran', 
                 role: 'owner' 
             }));
-            // Переходим в дашборд
-            window.location.href = 'dashboard.html';
+            document.getElementById('usernameDisplay').textContent = 'Tigran';
+            document.getElementById('userRole').textContent = 'owner';
+            showPage('dashboardPage');
+            showDashboardSection('home');
         } 
         else if (email === 'ankit@example.com' && password === 'partner123') {
             localStorage.setItem('user', JSON.stringify({ 
@@ -204,7 +461,10 @@
                 username: 'Ankit', 
                 role: 'admin' 
             }));
-            window.location.href = 'dashboard.html';
+            document.getElementById('usernameDisplay').textContent = 'Ankit';
+            document.getElementById('userRole').textContent = 'admin';
+            showPage('dashboardPage');
+            showDashboardSection('home');
         } 
         else {
             alert('Invalid credentials');
@@ -233,6 +493,16 @@
         alert('Password reset link sent!');
         showPage('loginPage');
     });
+
+    // ===== ВЫХОД =====
+    function logout() {
+        localStorage.removeItem('user');
+        showPage('loginPage');
+    }
+
+    window.logout = logout;
+    window.showDashboardSection = showDashboardSection;
+    window.showPage = showPage;
 </script>
 
 </body>
