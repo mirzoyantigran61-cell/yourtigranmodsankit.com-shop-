@@ -11,7 +11,6 @@
         * { font-family: 'Inter', sans-serif; }
         h1, h2, h3, h4, h5, h6 { font-family: 'Poppins', sans-serif; }
         
-        /* Neon glow animation */
         .glow {
             animation: glow 2s ease-in-out infinite alternate;
         }
@@ -20,17 +19,14 @@
             to { box-shadow: 0 0 20px #00eaff, 0 0 40px #00eaff; }
         }
         
-        /* Custom scrollbar */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #1b1b1b; }
         ::-webkit-scrollbar-thumb { background: #00ff9c; border-radius: 4px; }
         
-        /* Sidebar transition */
         .sidebar-transition {
             transition: all 0.3s ease;
         }
         
-        /* Card hover effect */
         .dashboard-card {
             transition: transform 0.3s, box-shadow 0.3s;
         }
@@ -42,8 +38,17 @@
 </head>
 <body class="bg-[#0f0f0f] text-white overflow-x-hidden">
 
-<!-- Главный контейнер -->
-<div id="app"></div>
+<div id="app">
+    <!-- Показываем загрузку, пока JS не сработает -->
+    <div class="min-h-screen flex items-center justify-center">
+        <div class="text-center">
+            <h1 class="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff] animate-pulse">
+                YourTigranmods
+            </h1>
+            <p class="text-[#b5b5b5] mt-4">Загрузка...</p>
+        </div>
+    </div>
+</div>
 
 <script>
     // ========== КОНФИГУРАЦИЯ ==========
@@ -55,7 +60,7 @@
     let currentPage = 'login';
     let sidebarCollapsed = false;
     
-    // ========== МОК-ДАННЫЕ ДЛЯ ДЕМОНСТРАЦИИ ==========
+    // ========== МОК-ДАННЫЕ ==========
     const mockLicenses = [
         { id: 'LIC-001', key: 'SPEED-2024-X9K2', status: 'active', created: '2024-01-15', expires: '2024-02-15' },
         { id: 'LIC-002', key: 'VIP-2024-ALPHA', status: 'active', created: '2024-01-20', expires: '2024-02-20' },
@@ -69,14 +74,13 @@
         { id: 4, username: 'user123', email: 'user@example.com', role: 'user', status: 'suspended', joined: '2024-01-15' },
     ];
     
-    // ========== ФУНКЦИИ API ==========
+    // ========== API ==========
     async function apiRequest(endpoint, method = 'GET', body = null) {
         const options = {
             method,
             headers: { 'Content-Type': 'application/json' },
         };
         if (body) options.body = JSON.stringify(body);
-
         try {
             const response = await fetch(`${API_URL}${endpoint}`, options);
             return await response.json();
@@ -122,27 +126,26 @@
         render();
     }
     
-    // ========== ПРОВЕРКА ПРАВ ==========
-    function isOwner() {
-        return currentUser?.role === 'owner';
-    }
-    
     function isAdmin() {
         return currentUser?.role === 'admin' || currentUser?.role === 'owner';
     }
     
     // ========== ИНИЦИАЛИЗАЦИЯ ==========
     (function init() {
-        const savedUser = localStorage.getItem('user');
-        const token = localStorage.getItem('token');
-        if (savedUser && token) {
-            currentUser = JSON.parse(savedUser);
-            currentPage = 'dashboard';
+        try {
+            const savedUser = localStorage.getItem('user');
+            const token = localStorage.getItem('token');
+            if (savedUser && token) {
+                currentUser = JSON.parse(savedUser);
+                currentPage = 'dashboard';
+            }
+        } catch (e) {
+            console.log('Init error, starting fresh');
         }
         render();
     })();
     
-    // ========== СИДЕБАР ==========
+    // ========== САЙДБАР ==========
     function renderSidebar() {
         if (!currentUser) return '';
         
@@ -160,7 +163,7 @@
         }
         
         return `
-            <div class="fixed left-0 top-0 h-full bg-[#1b1b1b] border-r border-[#00ff9c]/20 p-4 transition-all duration-300 ${sidebarCollapsed ? 'w-20' : 'w-64'}">
+            <div class="fixed left-0 top-0 h-full bg-[#1b1b1b] border-r border-[#00ff9c]/20 p-4 transition-all duration-300 ${sidebarCollapsed ? 'w-20' : 'w-64'}" style="z-index: 50;">
                 <div class="flex items-center justify-between mb-8">
                     <h2 class="font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff] ${sidebarCollapsed ? 'text-lg' : 'text-xl'}">
                         ${sidebarCollapsed ? 'YT' : SITE_NAME}
@@ -174,8 +177,7 @@
                     ${menuItems.map(item => `
                         <button onclick="navigateTo('${item.id}')" 
                             class="w-full flex items-center ${sidebarCollapsed ? 'justify-center' : 'space-x-3'} px-4 py-3 rounded-lg transition-all
-                            ${currentPage === item.id ? 'bg-[#00ff9c]/20 border border-[#00ff9c]' : 'hover:bg-[#00ff9c]/10'}"
-                        >
+                            ${currentPage === item.id ? 'bg-[#00ff9c]/20 border border-[#00ff9c]' : 'hover:bg-[#00ff9c]/10'}">
                             <i class="fas ${item.icon} text-[#00ff9c] text-xl"></i>
                             ${!sidebarCollapsed ? `<span>${item.label}</span>` : ''}
                         </button>
@@ -184,8 +186,7 @@
                 
                 <div class="absolute bottom-4 left-4 right-4">
                     <button onclick="handleLogout()" 
-                        class="w-full flex items-center ${sidebarCollapsed ? 'justify-center' : 'space-x-3'} px-4 py-3 rounded-lg hover:bg-red-500/10 text-red-500 border border-red-500/20"
-                    >
+                        class="w-full flex items-center ${sidebarCollapsed ? 'justify-center' : 'space-x-3'} px-4 py-3 rounded-lg hover:bg-red-500/10 text-red-500 border border-red-500/20">
                         <i class="fas fa-sign-out-alt text-xl"></i>
                         ${!sidebarCollapsed ? '<span>Logout</span>' : ''}
                     </button>
@@ -211,10 +212,7 @@
                             </h1>
                             <p class="text-[#b5b5b5] mt-2">Sign in to your dashboard</p>
                         </div>
-                        <form onsubmit="event.preventDefault(); handleLogin(
-                            document.getElementById('loginEmail').value,
-                            document.getElementById('loginPassword').value
-                        )" class="space-y-6">
+                        <form onsubmit="event.preventDefault(); handleLogin(document.getElementById('loginEmail').value, document.getElementById('loginPassword').value)" class="space-y-6">
                             <div>
                                 <label class="block text-white mb-2">Email</label>
                                 <input type="email" id="loginEmail" class="w-full bg-[#0f0f0f] border border-[#00ff9c]/20 rounded-lg px-4 py-3 text-white focus:border-[#00ff9c] focus:outline-none" required>
@@ -315,15 +313,13 @@
         `,
         
         dashboard: () => `
-            <div class="min-h-screen bg-[#0f0f0f] ${sidebarCollapsed ? 'pl-20' : 'pl-64'} transition-all duration-300">
+            <div class="min-h-screen bg-[#0f0f0f] pl-0 md:${sidebarCollapsed ? 'pl-20' : 'pl-64'} transition-all duration-300">
                 ${renderSidebar()}
                 <div class="p-8">
                     <div class="flex justify-between items-center mb-8">
-                        <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff]">
-                            Dashboard
-                        </h1>
+                        <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff]">Dashboard</h1>
                         <div class="flex items-center space-x-4">
-                            <span class="text-[#b5b5b5]">Welcome back, <span class="text-white font-bold">${currentUser?.username || 'User'}</span>!</span>
+                            <span class="text-[#b5b5b5]">Welcome, <span class="text-white font-bold">${currentUser?.username || 'User'}</span>!</span>
                         </div>
                     </div>
                     
@@ -428,13 +424,11 @@
         `,
         
         keys: () => `
-            <div class="min-h-screen bg-[#0f0f0f] ${sidebarCollapsed ? 'pl-20' : 'pl-64'} transition-all duration-300">
+            <div class="min-h-screen bg-[#0f0f0f] pl-0 md:${sidebarCollapsed ? 'pl-20' : 'pl-64'} transition-all duration-300">
                 ${renderSidebar()}
                 <div class="p-8">
                     <div class="flex justify-between items-center mb-8">
-                        <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff]">
-                            Key Manager
-                        </h1>
+                        <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff]">Key Manager</h1>
                         <button onclick="alert('Generate new license (demo)')" class="bg-[#00ff9c] text-[#0f0f0f] px-6 py-3 rounded-lg font-bold hover:bg-[#00eaff] transition">
                             <i class="fas fa-plus mr-2"></i>Generate License
                         </button>
@@ -447,7 +441,7 @@
                         </div>
                         <div class="bg-[#1b1b1b] p-6 rounded-xl border border-[#00ff9c]/20">
                             <p class="text-[#b5b5b5]">Total Licenses</p>
-                            <h2 class="text-3xl font-bold text-white">5</h2>
+                            <h2 class="text-3xl font-bold text-white">${mockLicenses.length}</h2>
                         </div>
                         <div class="bg-[#1b1b1b] p-6 rounded-xl border border-[#00ff9c]/20">
                             <p class="text-[#b5b5b5]">Expiring Soon</p>
@@ -507,12 +501,10 @@
         `,
         
         downloads: () => `
-            <div class="min-h-screen bg-[#0f0f0f] ${sidebarCollapsed ? 'pl-20' : 'pl-64'} transition-all duration-300">
+            <div class="min-h-screen bg-[#0f0f0f] pl-0 md:${sidebarCollapsed ? 'pl-20' : 'pl-64'} transition-all duration-300">
                 ${renderSidebar()}
                 <div class="p-8">
-                    <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff] mb-8">
-                        Downloads
-                    </h1>
+                    <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff] mb-8">Downloads</h1>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <div class="bg-[#1b1b1b] rounded-xl border border-[#00ff9c]/20 p-6 dashboard-card">
@@ -553,12 +545,10 @@
         `,
         
         settings: () => `
-            <div class="min-h-screen bg-[#0f0f0f] ${sidebarCollapsed ? 'pl-20' : 'pl-64'} transition-all duration-300">
+            <div class="min-h-screen bg-[#0f0f0f] pl-0 md:${sidebarCollapsed ? 'pl-20' : 'pl-64'} transition-all duration-300">
                 ${renderSidebar()}
                 <div class="p-8">
-                    <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff] mb-8">
-                        Settings
-                    </h1>
+                    <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff] mb-8">Settings</h1>
                     
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <div class="bg-[#1b1b1b] rounded-xl border border-[#00ff9c]/20 p-6">
@@ -597,10 +587,6 @@
                                     <input type="checkbox" class="w-5 h-5 accent-[#00ff9c]">
                                     <span class="text-white">Browser notifications</span>
                                 </label>
-                                <label class="flex items-center space-x-3">
-                                    <input type="checkbox" checked class="w-5 h-5 accent-[#00ff9c]">
-                                    <span class="text-white">License expiry reminders</span>
-                                </label>
                             </div>
                             <button onclick="alert('Preferences saved (demo)')" class="mt-6 bg-[#00ff9c] text-[#0f0f0f] px-6 py-2 rounded-lg font-bold hover:bg-[#00eaff]">
                                 Save Preferences
@@ -612,12 +598,10 @@
         `,
         
         security: () => `
-            <div class="min-h-screen bg-[#0f0f0f] ${sidebarCollapsed ? 'pl-20' : 'pl-64'} transition-all duration-300">
+            <div class="min-h-screen bg-[#0f0f0f] pl-0 md:${sidebarCollapsed ? 'pl-20' : 'pl-64'} transition-all duration-300">
                 ${renderSidebar()}
                 <div class="p-8">
-                    <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff] mb-8">
-                        Security
-                    </h1>
+                    <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff] mb-8">Security</h1>
                     
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                         <div class="bg-[#1b1b1b] rounded-xl border border-[#00ff9c]/20 p-6">
@@ -672,12 +656,10 @@
         `,
         
         support: () => `
-            <div class="min-h-screen bg-[#0f0f0f] ${sidebarCollapsed ? 'pl-20' : 'pl-64'} transition-all duration-300">
+            <div class="min-h-screen bg-[#0f0f0f] pl-0 md:${sidebarCollapsed ? 'pl-20' : 'pl-64'} transition-all duration-300">
                 ${renderSidebar()}
                 <div class="p-8">
-                    <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff] mb-8">
-                        Support
-                    </h1>
+                    <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff] mb-8">Support</h1>
                     
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
                         <div class="bg-[#1b1b1b] rounded-xl border border-[#00ff9c]/20 p-6 text-center dashboard-card">
@@ -736,12 +718,10 @@
         `,
         
         admin: () => `
-            <div class="min-h-screen bg-[#0f0f0f] ${sidebarCollapsed ? 'pl-20' : 'pl-64'} transition-all duration-300">
+            <div class="min-h-screen bg-[#0f0f0f] pl-0 md:${sidebarCollapsed ? 'pl-20' : 'pl-64'} transition-all duration-300">
                 ${renderSidebar()}
                 <div class="p-8">
-                    <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff] mb-8">
-                        Admin Panel
-                    </h1>
+                    <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff] mb-8">Admin Panel</h1>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                         <div class="bg-[#1b1b1b] p-6 rounded-xl border border-[#00ff9c]/20">
@@ -819,12 +799,10 @@
         `,
         
         faq: () => `
-            <div class="min-h-screen bg-[#0f0f0f] ${sidebarCollapsed ? 'pl-20' : 'pl-64'} transition-all duration-300">
+            <div class="min-h-screen bg-[#0f0f0f] pl-0 md:${sidebarCollapsed ? 'pl-20' : 'pl-64'} transition-all duration-300">
                 ${renderSidebar()}
                 <div class="p-8">
-                    <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff] mb-8">
-                        Frequently Asked Questions
-                    </h1>
+                    <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#00ff9c] to-[#00eaff] mb-8">Frequently Asked Questions</h1>
                     
                     <div class="space-y-4">
                         <div class="bg-[#1b1b1b] rounded-xl border border-[#00ff9c]/20 p-6">
@@ -859,10 +837,11 @@
     
     // ========== РЕНДЕР ==========
     function render() {
-        document.getElementById('app').innerHTML = pages[currentPage] ? pages[currentPage]() : pages.login();
+        const content = pages[currentPage] ? pages[currentPage]() : pages.login();
+        document.getElementById('app').innerHTML = content;
     }
     
-    // Глобальные функции для onclick
+    // Глобальные функции
     window.navigateTo = navigateTo;
     window.toggleSidebar = toggleSidebar;
     window.handleLogin = handleLogin;
