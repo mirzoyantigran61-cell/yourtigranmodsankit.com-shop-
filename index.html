@@ -214,6 +214,78 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
+        .btn-gold {
+            background: linear-gradient(45deg, #ffd700, #ff8c00);
+            color: black;
+        }
+
+        .btn-red {
+            background: linear-gradient(45deg, #ff4d4d, #b30000);
+        }
+
+        /* Контакты внизу */
+        .contacts-footer {
+            margin-top: 50px;
+            padding: 30px;
+            background: rgba(10, 8, 20, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(100, 150, 255, 0.3);
+            text-align: center;
+        }
+
+        .contacts-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #a855f7, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .contacts-grid {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            border: 2px solid #a855f7;
+            transition: all 0.3s;
+        }
+
+        .contact-item:hover .contact-icon {
+            transform: scale(1.1);
+            border-color: #ffd700;
+            box-shadow: 0 0 30px #ffd700;
+        }
+
+        .contact-text {
+            font-size: 16px;
+            color: #a0a0a0;
+        }
+
+        .contact-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+        }
+
         /* Таблицы */
         .table {
             width: 100%;
@@ -294,6 +366,7 @@
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
         .admin-tab {
@@ -354,6 +427,10 @@
             .nav-links {
                 flex-wrap: wrap;
                 justify-content: center;
+            }
+            
+            .contacts-grid {
+                gap: 20px;
             }
         }
     </style>
@@ -478,61 +555,67 @@
                     <h2 class="card-title">🔑 KEY GENERATOR</h2>
                     
                     <div style="margin-bottom: 30px;">
-                        <h3 style="color: #a855f7; margin-bottom: 15px;">Available Keys</h3>
-                        
+                        <!-- User Keys Section -->
                         <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                                <span>🎯 User Keys (100+)</span>
-                                <span class="badge badge-user" id="userKeysCount">100</span>
-                            </div>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; max-height: 200px; overflow-y: auto;" id="userKeysList">
+                            <h3 style="color: #3b82f6; margin-bottom: 15px;">🎯 USER KEYS (FREE)</h3>
+                            
+                            <div style="max-height: 200px; overflow-y: auto; margin-bottom: 20px;" id="userKeysList">
                                 <!-- Ключи будут добавлены через JS -->
                             </div>
+                            
+                            <button class="btn" onclick="createUserKey()" style="background: linear-gradient(45deg, #3b82f6, #1e40af);">
+                                CREATE USER KEY
+                            </button>
+                            
+                            <p style="margin-top: 10px; color: #a0a0a0; font-size: 14px;">
+                                One key per person. Free for registered users.
+                            </p>
                         </div>
                         
+                        <!-- VIP Keys Section -->
                         <div style="background: rgba(168,85,247,0.1); padding: 20px; border-radius: 10px; border: 1px solid #a855f7;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                                <span>⭐ VIP Keys (20-30)</span>
-                                <span class="badge badge-vip" id="vipKeysCount">20</span>
-                            </div>
-                            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; max-height: 200px; overflow-y: auto;" id="vipKeysList">
+                            <h3 style="color: #a855f7; margin-bottom: 15px;">⭐ VIP KEYS (PREMIUM)</h3>
+                            
+                            <div style="max-height: 200px; overflow-y: auto; margin-bottom: 20px;" id="vipKeysList">
                                 <!-- Ключи будут добавлены через JS -->
                             </div>
-                        </div>
-                    </div>
-                    
-                    <div style="text-align: center;">
-                        <button class="btn" onclick="getRandomKey('user')" style="width: auto; padding: 10px 30px;">Get Random User Key</button>
-                        <p style="margin: 10px 0; color: #a0a0a0;">or</p>
-                        <button class="btn" onclick="showVipPurchase()" style="background: linear-gradient(45deg, #ffd700, #ff8c00);">💎 BUY VIP ACCESS</button>
-                    </div>
-                    
-                    <div id="vipPurchaseForm" style="display: none; margin-top: 30px;">
-                        <h3 style="color: #ffd700; margin-bottom: 15px;">Purchase VIP Password</h3>
-                        
-                        <div class="payment-methods">
-                            <div class="payment-card">
-                                <h3>💳 Ameriabank Card</h3>
-                                <p>5501 0410 0110 3756 0</p>
+                            
+                            <button class="btn btn-gold" onclick="showVipPurchase()" style="margin-bottom: 10px;">
+                                💎 BUY VIP PASSWORD
+                            </button>
+                            
+                            <div id="vipPurchaseForm" style="display: none; margin-top: 20px; padding: 20px; background: rgba(0,0,0,0.3); border-radius: 10px;">
+                                <h4 style="color: #ffd700; margin-bottom: 15px;">Payment Details</h4>
+                                
+                                <div class="payment-methods">
+                                    <div class="payment-card">
+                                        <h3>💳 Ameriabank Card</h3>
+                                        <p>5501 0410 0110 3756 0</p>
+                                    </div>
+                                    <div class="payment-card">
+                                        <h3>📧 PayPal</h3>
+                                        <p>edoe0739@gmail.com</p>
+                                    </div>
+                                </div>
+                                
+                                <div style="margin: 20px 0; padding: 15px; background: rgba(255,215,0,0.1); border-radius: 10px;">
+                                    <p style="color: #ffd700;">After payment, contact owner on Telegram:</p>
+                                    <p style="font-size: 20px; font-weight: bold;">@YourTigranmods</p>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Your Telegram Username</label>
+                                    <input type="text" class="form-control" id="vipTelegram" placeholder="@username">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Transaction ID (optional)</label>
+                                    <input type="text" class="form-control" id="transactionId" placeholder="Enter transaction ID">
+                                </div>
+                                
+                                <button class="btn btn-gold" onclick="requestVipAccess()">REQUEST VIP ACCESS</button>
                             </div>
-                            <div class="payment-card">
-                                <h3>📧 PayPal</h3>
-                                <p>edoe0739@gmail.com</p>
-                            </div>
                         </div>
-                        
-                        <div class="form-group">
-                            <label>Your Telegram Username</label>
-                            <input type="text" class="form-control" id="vipTelegram" placeholder="@username">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Transaction ID (if paid)</label>
-                            <input type="text" class="form-control" id="transactionId" placeholder="Enter transaction ID">
-                        </div>
-                        
-                        <button class="btn" onclick="requestVipAccess()" style="background: linear-gradient(45deg, #ffd700, #ff8c00); margin-bottom: 10px;">REQUEST VIP ACCESS</button>
-                        <button class="btn btn-secondary" onclick="contactOwner()">📱 CONTACT OWNER</button>
                     </div>
                 </div>
                 
@@ -554,7 +637,7 @@
                             <span id="accountRole">User</span>
                         </div>
                         <div style="display: flex; justify-content: space-between; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 10px;">
-                            <span>Your Key:</span>
+                            <span>Your Password:</span>
                             <span id="accountKey" class="key-item">None</span>
                         </div>
                     </div>
@@ -592,7 +675,7 @@
                             <th>Email</th>
                             <th>Telegram</th>
                             <th>Role</th>
-                            <th>Key</th>
+                            <th>Password</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -603,12 +686,11 @@
             </div>
             
             <div id="adminKeys" style="display: none;">
-                <h3>Key Management</h3>
+                <h3>VIP Key Management</h3>
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Key</th>
-                            <th>Type</th>
+                            <th>Password</th>
                             <th>Status</th>
                             <th>Assigned To</th>
                             <th>Actions</th>
@@ -618,6 +700,10 @@
                         <!-- JS будет добавлять ключи -->
                     </tbody>
                 </table>
+                
+                <div style="margin-top: 20px;">
+                    <button class="btn btn-gold" onclick="generateVipKey()">Generate New VIP Password</button>
+                </div>
             </div>
             
             <div id="adminVipRequests" style="display: none;">
@@ -638,21 +724,13 @@
             </div>
             
             <div id="adminGenerate" style="display: none;">
-                <h3>Generate New Key</h3>
+                <h3>Generate New VIP Password</h3>
                 
-                <div class="form-group">
-                    <label>Key Type</label>
-                    <select class="form-control" id="newKeyType">
-                        <option value="user">User Key</option>
-                        <option value="vip">VIP Key</option>
-                    </select>
-                </div>
-                
-                <button class="btn" onclick="generateKey()">Generate Key</button>
+                <button class="btn btn-gold" onclick="generateVipKey()">Generate VIP Password</button>
                 
                 <div id="generatedKey" style="margin-top: 20px; padding: 20px; background: rgba(0,0,0,0.3); border-radius: 10px; display: none;">
-                    <h4>New Key Generated:</h4>
-                    <p class="key-item" id="newKeyValue">KEY-XXXX-XXXX</p>
+                    <h4>New VIP Password Generated:</h4>
+                    <p class="key-item key-vip" id="newKeyValue">VIP-XXXX-XXXX</p>
                 </div>
             </div>
         </div>
@@ -675,7 +753,7 @@
                         <tr>
                             <th>Email</th>
                             <th>Telegram</th>
-                            <th>Role</th>
+                            <th>Password</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -691,6 +769,9 @@
                     </div>
                     <div class="form-group">
                         <input type="text" class="form-control" id="newAdminTelegram" placeholder="Telegram @username">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="newAdminPassword" placeholder="Password (leave empty for auto)">
                     </div>
                     <button class="btn" onclick="addAdmin()">Add Admin</button>
                 </div>
@@ -709,7 +790,7 @@
                     </div>
                     <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px; text-align: center;">
                         <div style="font-size: 36px; color: #3b82f6;" id="activeKeys">0</div>
-                        <div>Active Keys</div>
+                        <div>VIP Keys Used</div>
                     </div>
                 </div>
             </div>
@@ -748,11 +829,71 @@
             </div>
         </div>
 
-        <!-- Contact Owner Button (всегда видна) -->
+        <!-- Contact Owner Button -->
         <div style="position: fixed; bottom: 20px; right: 20px; z-index: 100;">
-            <button class="btn" onclick="contactOwner()" style="width: auto; padding: 15px 30px; background: linear-gradient(45deg, #ff4d4d, #b30000);">
+            <button class="btn btn-red" onclick="contactOwner()" style="width: auto; padding: 15px 30px;">
                 📞 CONTACT OWNER
             </button>
+        </div>
+
+        <!-- Footer with Contacts -->
+        <div class="contacts-footer">
+            <div class="contacts-title">📱 ALL CONTACTS</div>
+            <div class="contacts-grid">
+                <div class="contact-item">
+                    <div class="contact-icon">📧</div>
+                    <span class="contact-text">Email</span>
+                    <span class="contact-value">mirzoyantigran61@gmail.com</span>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">📱</div>
+                    <span class="contact-text">Telegram</span>
+                    <span class="contact-value">@YourTigranmods</span>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">📱</div>
+                    <span class="contact-text">Telegram Channel</span>
+                    <span class="contact-value">@speedmak1</span>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">👥</div>
+                    <span class="contact-text">Telegram Group</span>
+                    <span class="contact-value">@speedmak</span>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">📷</div>
+                    <span class="contact-text">Instagram</span>
+                    <span class="contact-value">@armffsoft</span>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">🎵</div>
+                    <span class="contact-text">TikTok</span>
+                    <span class="contact-value">@armffsoft_444</span>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">▶️</div>
+                    <span class="contact-text">YouTube</span>
+                    <span class="contact-value">@speedmak01</span>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">💳</div>
+                    <span class="contact-text">Card</span>
+                    <span class="contact-value">5501 0410 0110 3756 0</span>
+                </div>
+                
+                <div class="contact-item">
+                    <div class="contact-icon">📧</div>
+                    <span class="contact-text">PayPal</span>
+                    <span class="contact-value">edoe0739@gmail.com</span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -760,108 +901,115 @@
         // ==================== ГЛОБАЛЬНЫЕ ДАННЫЕ ====================
         let currentUser = null;
         let users = [];
-        let keys = [];
+        let vipKeys = []; // Только VIP ключи (для админов)
+        let userKeys = []; // User ключи (обычные)
         let vipRequests = [];
         let logs = [];
 
-        // Владелец (приватно)
+        // Владелец (ФИКСИРОВАННЫЕ ДАННЫЕ)
         const OWNER = {
             email: 'mirzoyantigran61@gmail.com',
-            password: 'TigranAdmin2024!',
+            password: 'TigranOwner2024',
             telegram: '@YourTigranmods',
             role: 'owner'
         };
 
-        // Админы (назначаются владельцем)
+        // Админы (ФИКСИРОВАННЫЕ ДАННЫЕ)
         let admins = [
             {
                 email: 'admin@yourtigranmods.org',
-                password: 'Admin123!',
+                password: 'AdminVIP2024',
                 telegram: '@AnkitXLive',
                 role: 'admin'
             }
         ];
 
-        // Генерация ключей
-        function generateKeys() {
-            keys = [];
-            
-            // 100+ пользовательских ключей
+        // Тестовые пользователи (ФИКСИРОВАННЫЕ ПАРОЛИ)
+        users = [
+            {
+                email: 'test@user.com',
+                password: 'UserTest123',
+                telegram: '@testuser',
+                role: 'user',
+                key: null
+            },
+            {
+                email: 'vip@user.com',
+                password: 'VIPUser2024',
+                telegram: '@vipuser',
+                role: 'vip',
+                key: 'VIP-A1B2-C3D4'
+            }
+        ];
+
+        // Генерация VIP ключей (для админов)
+        function generateVipKeys() {
+            vipKeys = [];
+            const prefixes = ['VIP', 'GOLD', 'PLATINUM', 'PREMIUM'];
+            for (let i = 1; i <= 30; i++) {
+                const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+                const letters = Math.random().toString(36).substring(2, 6).toUpperCase();
+                const numbers = Math.floor(Math.random() * 9000 + 1000);
+                vipKeys.push({
+                    key: `${prefix}-${letters}-${numbers}`,
+                    status: 'available',
+                    assignedTo: null
+                });
+            }
+        }
+
+        // Генерация User ключей (обычные)
+        function generateUserKeys() {
+            userKeys = [];
             for (let i = 1; i <= 150; i++) {
-                keys.push({
-                    key: `USER-${Math.random().toString(36).substring(2, 10).toUpperCase()}-${i}`,
-                    type: 'user',
+                const letters = Math.random().toString(36).substring(2, 8).toUpperCase();
+                const numbers = Math.floor(Math.random() * 9000 + 1000);
+                userKeys.push({
+                    key: `USER-${letters}-${numbers}`,
                     status: 'available',
                     assignedTo: null
                 });
             }
-            
-            // 20-30 VIP ключей
-            for (let i = 1; i <= 25; i++) {
-                keys.push({
-                    key: `VIP-${Math.random().toString(36).substring(2, 10).toUpperCase()}-${i}`,
-                    type: 'vip',
-                    status: 'available',
-                    assignedTo: null
-                });
-            }
-            
-            updateKeysDisplay();
         }
 
-        // Обновление отображения ключей
-        function updateKeysDisplay() {
-            const userKeys = keys.filter(k => k.type === 'user' && k.status === 'available');
-            const vipKeys = keys.filter(k => k.type === 'vip' && k.status === 'available');
-            
-            document.getElementById('userKeysCount').textContent = userKeys.length;
-            document.getElementById('vipKeysCount').textContent = vipKeys.length;
-            
-            const userList = document.getElementById('userKeysList');
-            const vipList = document.getElementById('vipKeysList');
-            
-            userList.innerHTML = '';
-            vipList.innerHTML = '';
-            
-            userKeys.slice(0, 20).forEach(k => {
-                userList.innerHTML += `<div class="key-item">${k.key}</div>`;
-            });
-            
-            vipKeys.slice(0, 10).forEach(k => {
-                vipList.innerHTML += `<div class="key-item key-vip">${k.key}</div>`;
-            });
-            
-            if (document.getElementById('keysTable')) {
-                updateKeysTable();
-            }
-        }
-
-        // Получить случайный ключ
-        function getRandomKey(type) {
+        // Создать ключ для обычного пользователя (ОДИН ПАРОЛЬ ДЛЯ ОДНОГО ЧЕЛОВЕКА)
+        function createUserKey() {
             if (!currentUser) {
                 showNotification('Please login first', 'error');
                 return;
             }
             
-            const availableKeys = keys.filter(k => k.type === type && k.status === 'available');
+            // Проверяем, есть ли уже ключ у пользователя
+            if (currentUser.key) {
+                showNotification('You already have a key!', 'error');
+                return;
+            }
+            
+            const availableKeys = userKeys.filter(k => k.status === 'available');
             
             if (availableKeys.length === 0) {
                 showNotification('No keys available', 'error');
                 return;
             }
             
-            const randomKey = availableKeys[Math.floor(Math.random() * availableKeys.length)];
-            randomKey.status = 'used';
-            randomKey.assignedTo = currentUser.email;
+            // Берем первый доступный ключ
+            const newKey = availableKeys[0];
+            newKey.status = 'used';
+            newKey.assignedTo = currentUser.email;
             
-            currentUser.key = randomKey.key;
-            currentUser.role = type === 'vip' ? 'vip' : 'user';
+            // Обновляем пользователя
+            currentUser.key = newKey.key;
+            const userIndex = users.findIndex(u => u.email === currentUser.email);
+            if (userIndex !== -1) {
+                users[userIndex].key = newKey.key;
+            }
             
-            updateKeysDisplay();
             updateUserInfo();
-            showNotification(`Your key: ${randomKey.key}`, 'success');
+            showNotification(`Your password: ${newKey.key}`, 'success');
+            addLog(`User ${currentUser.email} got password: ${newKey.key}`);
             
-            addLog(`${currentUser.email} got ${type} key: ${randomKey.key}`);
+            // Обновляем отображение
+            displayUserKeys();
         }
 
         // Показать форму покупки VIP
@@ -886,13 +1034,17 @@
                 status: 'pending'
             });
             
-            showNotification('VIP request sent to admin!', 'success');
+            showNotification('VIP request sent! Owner will contact you on Telegram', 'success');
             addLog(`VIP request from ${telegram}`);
+            
+            // Очищаем форму
+            document.getElementById('vipTelegram').value = '';
+            document.getElementById('transactionId').value = '';
         }
 
         // Связаться с владельцем
         function contactOwner() {
-            window.location.href = 'https://t.me/YourTigranmods';
+            window.open('https://t.me/YourTigranmods', '_blank');
         }
 
         // ==================== СИСТЕМА АККАУНТОВ ====================
@@ -922,9 +1074,9 @@
             
             const newUser = {
                 email: email,
-                password: password,
+                password: password, // Сохраняем введенный пароль
                 telegram: telegram,
-                role: role === 'vip' ? 'vip' : 'user',
+                role: 'user', // Все новые пользователи - обычные
                 key: null,
                 createdAt: new Date().toISOString()
             };
@@ -946,7 +1098,9 @@
                 currentUser = { ...OWNER };
                 afterLogin();
                 document.getElementById('ownerLink').style.display = 'block';
+                document.getElementById('adminLink').style.display = 'block';
                 addLog('Owner logged in');
+                showNotification('Welcome Owner!', 'success');
                 return;
             }
             
@@ -957,6 +1111,7 @@
                 afterLogin();
                 document.getElementById('adminLink').style.display = 'block';
                 addLog(`Admin logged in: ${email}`);
+                showNotification('Welcome Admin!', 'success');
                 return;
             }
             
@@ -966,6 +1121,7 @@
                 currentUser = { ...user };
                 afterLogin();
                 addLog(`User logged in: ${email}`);
+                showNotification(`Welcome ${email}!`, 'success');
                 return;
             }
             
@@ -992,9 +1148,14 @@
             document.getElementById('userRole').className = `user-role ${roleClass}`;
             
             updateUserInfo();
+            displayUserKeys();
             
             if (currentUser.role === 'owner' || currentUser.role === 'admin') {
                 updateAdminPanel();
+            }
+            
+            if (currentUser.role === 'owner') {
+                updateOwnerPanel();
             }
         }
 
@@ -1031,6 +1192,28 @@
             }
         }
 
+        function displayUserKeys() {
+            const userKeysList = document.getElementById('userKeysList');
+            const vipKeysList = document.getElementById('vipKeysList');
+            
+            userKeysList.innerHTML = '';
+            vipKeysList.innerHTML = '';
+            
+            // Показываем доступные user ключи
+            userKeys.filter(k => k.status === 'available').slice(0, 20).forEach(k => {
+                userKeysList.innerHTML += `<div class="key-item">${k.key}</div>`;
+            });
+            
+            // Показываем доступные vip ключи (только админам и владельцу)
+            if (currentUser && (currentUser.role === 'admin' || currentUser.role === 'owner')) {
+                vipKeys.filter(k => k.status === 'available').slice(0, 10).forEach(k => {
+                    vipKeysList.innerHTML += `<div class="key-item key-vip">${k.key}</div>`;
+                });
+            } else {
+                vipKeysList.innerHTML = '<p style="color: #a0a0a0;">VIP keys visible only to admins</p>';
+            }
+        }
+
         // ==================== АДМИН ПАНЕЛЬ ====================
         function updateAdminPanel() {
             document.getElementById('adminPanel').style.display = 'block';
@@ -1060,15 +1243,14 @@
         function updateKeysTable() {
             const keysTable = document.getElementById('keysTable');
             keysTable.innerHTML = '';
-            keys.forEach(key => {
+            vipKeys.forEach(key => {
                 keysTable.innerHTML += `
                     <tr>
-                        <td class="key-item ${key.type === 'vip' ? 'key-vip' : ''}">${key.key}</td>
-                        <td>${key.type.toUpperCase()}</td>
+                        <td class="key-item key-vip">${key.key}</td>
                         <td><span style="color: ${key.status === 'available' ? '#00ff00' : '#ff0000'}">${key.status}</span></td>
                         <td>${key.assignedTo || '-'}</td>
                         <td>
-                            <button class="btn btn-secondary" onclick="deleteKey('${key.key}')" style="padding: 5px 10px;">Delete</button>
+                            <button class="btn btn-secondary" onclick="deleteVipKey('${key.key}')" style="padding: 5px 10px;">Delete</button>
                         </td>
                     </tr>
                 `;
@@ -1094,37 +1276,49 @@
         }
 
         function showAdminTab(tab) {
-            document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('#adminPanel .admin-tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('#adminPanel > div:not(.admin-tabs)').forEach(d => d.style.display = 'none');
             
             document.getElementById(`admin${tab.charAt(0).toUpperCase() + tab.slice(1)}`).style.display = 'block';
             event.target.classList.add('active');
         }
 
-        function generateKey() {
-            const type = document.getElementById('newKeyType').value;
+        function generateVipKey() {
+            const prefixes = ['VIP', 'GOLD', 'PLATINUM', 'PREMIUM'];
+            const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+            const letters = Math.random().toString(36).substring(2, 6).toUpperCase();
+            const numbers = Math.floor(Math.random() * 9000 + 1000);
             const newKey = {
-                key: `${type.toUpperCase()}-${Math.random().toString(36).substring(2, 10).toUpperCase()}-${keys.length + 1}`,
-                type: type,
+                key: `${prefix}-${letters}-${numbers}`,
                 status: 'available',
                 assignedTo: null
             };
             
-            keys.push(newKey);
-            updateKeysDisplay();
+            vipKeys.push(newKey);
             
             document.getElementById('newKeyValue').textContent = newKey.key;
             document.getElementById('generatedKey').style.display = 'block';
             
-            addLog(`Admin generated new ${type} key: ${newKey.key}`);
+            updateKeysTable();
+            displayUserKeys();
+            addLog(`Admin generated new VIP key: ${newKey.key}`);
         }
 
         function makeVIP(email) {
             const user = users.find(u => u.email === email);
             if (user) {
                 user.role = 'vip';
+                // Даем VIP ключ
+                const vipKey = vipKeys.find(k => k.status === 'available');
+                if (vipKey) {
+                    vipKey.status = 'used';
+                    vipKey.assignedTo = email;
+                    user.key = vipKey.key;
+                }
                 updateAdminPanel();
+                displayUserKeys();
                 addLog(`${email} was made VIP by admin`);
+                showNotification(`${email} is now VIP!`, 'success');
             }
         }
 
@@ -1134,24 +1328,25 @@
             addLog(`User deleted: ${email}`);
         }
 
-        function deleteKey(keyValue) {
-            keys = keys.filter(k => k.key !== keyValue);
-            updateKeysDisplay();
-            addLog(`Key deleted: ${keyValue}`);
+        function deleteVipKey(keyValue) {
+            vipKeys = vipKeys.filter(k => k.key !== keyValue);
+            updateKeysTable();
+            displayUserKeys();
+            addLog(`VIP key deleted: ${keyValue}`);
         }
 
         function approveVIP(index) {
             const request = vipRequests[index];
             // Даем VIP ключ
-            const vipKey = keys.find(k => k.type === 'vip' && k.status === 'available');
+            const vipKey = vipKeys.find(k => k.status === 'available');
             if (vipKey) {
                 vipKey.status = 'used';
                 // Находим пользователя по телеграму или создаем
                 let user = users.find(u => u.telegram === request.telegram);
                 if (!user) {
                     user = {
-                        email: `${request.telegram}@temp.com`,
-                        password: Math.random().toString(36),
+                        email: `${request.telegram.replace('@', '')}@temp.com`,
+                        password: 'TempPass123',
                         telegram: request.telegram,
                         role: 'vip',
                         key: vipKey.key
@@ -1164,9 +1359,12 @@
                 
                 vipRequests.splice(index, 1);
                 updateAdminPanel();
-                updateKeysDisplay();
+                updateKeysTable();
+                displayUserKeys();
                 addLog(`VIP approved for ${request.telegram}`);
                 showNotification(`VIP access granted to ${request.telegram}`, 'success');
+            } else {
+                showNotification('No VIP keys available', 'error');
             }
         }
 
@@ -1186,12 +1384,13 @@
             
             if (tab === 'stats') updateStats();
             if (tab === 'logs') updateLogs();
+            if (tab === 'admins') updateAdminsTable();
         }
 
         function updateStats() {
             document.getElementById('totalUsers').textContent = users.length;
             document.getElementById('vipUsers').textContent = users.filter(u => u.role === 'vip').length;
-            document.getElementById('activeKeys').textContent = keys.filter(k => k.status === 'used').length;
+            document.getElementById('activeKeys').textContent = vipKeys.filter(k => k.status === 'used').length;
         }
 
         function updateLogs() {
@@ -1202,24 +1401,66 @@
             });
         }
 
+        function updateAdminsTable() {
+            const adminsTable = document.getElementById('adminsTable');
+            adminsTable.innerHTML = '';
+            admins.forEach((admin, index) => {
+                adminsTable.innerHTML += `
+                    <tr>
+                        <td>${admin.email}</td>
+                        <td>${admin.telegram}</td>
+                        <td class="key-item">${admin.password}</td>
+                        <td>
+                            <button class="btn btn-secondary" onclick="deleteAdmin(${index})" style="padding: 5px 10px;">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function updateOwnerPanel() {
+            document.getElementById('ownerPanel').style.display = 'block';
+            updateAdminsTable();
+            updateStats();
+        }
+
         function addAdmin() {
             const email = document.getElementById('newAdminEmail').value;
             const telegram = document.getElementById('newAdminTelegram').value;
+            let password = document.getElementById('newAdminPassword').value;
             
             if (!email || !telegram) {
                 showNotification('Please fill all fields', 'error');
                 return;
             }
             
+            // Если пароль не указан, генерируем
+            if (!password) {
+                password = 'Admin' + Math.floor(Math.random() * 9000 + 1000);
+            }
+            
             admins.push({
                 email: email,
-                password: 'Admin' + Math.random().toString(36).substring(2, 8) + '!',
+                password: password,
                 telegram: telegram,
                 role: 'admin'
             });
             
-            showNotification(`Admin added: ${email}`, 'success');
+            showNotification(`Admin added: ${email} with password: ${password}`, 'success');
             addLog(`Owner added admin: ${email}`);
+            
+            // Очищаем поля
+            document.getElementById('newAdminEmail').value = '';
+            document.getElementById('newAdminTelegram').value = '';
+            document.getElementById('newAdminPassword').value = '';
+            
+            updateAdminsTable();
+        }
+
+        function deleteAdmin(index) {
+            admins.splice(index, 1);
+            updateAdminsTable();
+            addLog(`Admin deleted`);
         }
 
         function saveOwnerSettings() {
@@ -1247,7 +1488,6 @@
         }
 
         function showSection(section) {
-            // Показать соответствующую секцию
             if (section === 'generator') {
                 document.getElementById('generatorSection').scrollIntoView({ behavior: 'smooth' });
             } else if (section === 'account') {
@@ -1286,10 +1526,8 @@
             
             const user = users.find(u => u.email === email && u.telegram === telegram);
             if (user) {
-                const newPassword = Math.random().toString(36).substring(2, 10);
-                user.password = newPassword;
-                showNotification(`New password sent to ${telegram}`, 'success');
-                addLog(`Password reset for ${email}`);
+                showNotification(`Your password is: ${user.password}`, 'success');
+                addLog(`Password reminder for ${email}`);
             } else {
                 showNotification('User not found', 'error');
             }
@@ -1309,16 +1547,8 @@
                 document.getElementById('stars').appendChild(star);
             }
             
-            generateKeys();
-            
-            // Добавляем тестовых пользователей
-            users.push({
-                email: 'test@user.com',
-                password: 'test123',
-                telegram: '@testuser',
-                role: 'user',
-                key: null
-            });
+            generateUserKeys();
+            generateVipKeys();
         }
 
         window.onload = init;
